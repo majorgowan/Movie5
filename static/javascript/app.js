@@ -1,7 +1,5 @@
 $(document).ready( function() {
 
-    var csrftoken = $('meta[name=csrf-token]').attr('content')
-
     // make AJAX call to get json of movie info
     populate();
 
@@ -9,7 +7,7 @@ $(document).ready( function() {
     $( ".droppable_bar" ).droppable({
         accept: "#containment-wrapper > img",
         drop: function( event, ui ) {
-            
+
             console.log('draggable object has id ' + ui.draggable.attr('id'));
             console.log(JSON.stringify({'poster': ui.draggable.attr('id'), 'endzone': $(this).attr('id') }));
 
@@ -20,17 +18,20 @@ $(document).ready( function() {
                 .css({
                     'position': 'static',
                     'margin': '5px auto -40px auto'
-                })
-                .appendTo($(this));
+                }).appendTo($(this));
             // make AJAX call to update preferences and get new predictions
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: '/update_choice',
-                contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: JSON.stringify({'poster': ui.draggable.attr('id'), 'endzone': $(this).attr('id') }),
+                data: {'poster': ui.draggable.attr('id'), 'endzone': $(this).attr('id') },
                 success: function(response) {
                     console.log(response);
+                    for (var post in response) {
+                        posx = 0.5*(response[post] + 1);
+                        posy = 1-posx;                            
+                        placePoster("#"+post, posx, posy);
+                    }
                     //rearrange_other_posters(ui.draggable, response.nudge);
                 },
                 error: function(error) {
@@ -42,10 +43,16 @@ $(document).ready( function() {
 
     function placePoster(obj, relx, rely) {
         buff = $(".droppable_bar").width();
-        $(obj).css({ 
+        $(obj).animate({
             top:  relx*($("#containment-wrapper").height() - $("img").height()), 
             left: buff + rely*($("#containment-wrapper").width() - 2*buff - $("img").width())
+        }, 400, function() {
+            // Animation complete.
         });
+        //$(obj).css({ 
+        //    top:  relx*($("#containment-wrapper").height() - $("img").height()), 
+        //    left: buff + rely*($("#containment-wrapper").width() - 2*buff - $("img").width())
+        //});
     }
 
     function initPosters() {
@@ -92,7 +99,7 @@ $(document).ready( function() {
             url: '/get_movie_list',
             dataType: "json",
             data: '',
-            type: 'POST',
+            type: 'GET',
             success: function(response) {
                 console.log(response);
                 for (var ifilm = 0; ifilm < response.length; ifilm++) {
