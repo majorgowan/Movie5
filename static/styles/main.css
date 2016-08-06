@@ -85,6 +85,7 @@ a:hover {
 .recommender-block #containment-wrapper .droppable_bar {
     height: 100%;
     width: 12%;
+    text-align: center;
 }
 .recommender-block #containment-wrapper #dislike_bar {
     background-color: #993333;
@@ -94,16 +95,8 @@ a:hover {
     background-color: #339933;
     float: right;
 }
-.arrow_and_label {
-    width: 800px;
-    margin: auto;
-}
-.arrow_and_label .horiz_arrow {
-    margin: auto;
-}
-
-.dropped {
-    border: 1px solid  #111111;
+.draggable {
+    z-index: 0;
 }
 
 .footer {

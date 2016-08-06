@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/vendor/jquery-ui.theme.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/vendor/jquery-ui.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
         <div class="header">

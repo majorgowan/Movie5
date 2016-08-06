@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for
-import json
+from flask import Flask, render_template, url_for, json
+import numpy as np
 
 app = Flask(__name__)
 
@@ -10,8 +10,18 @@ def movie_rater():
 
 @app.route("/update_choice",methods=["POST"])
 def update():
-    # dumb dumb model, just send nudge distances for all movies
-    resp = { 'nudge': nudge_model() }
+    #data = request.get_json()
+    '''
+    ifilm = int(data['poster'].split('_')[1])
+    if (data['endzone'] == 'dislike_bar'):
+        thumb = 'down'
+    else:
+        thumb = 'up'
+        
+    #pred = collaborative_model(user_choices);
+    resp = { 'ifilm': ifilm, 'thumb': thumb }
+    '''
+    resp = { 'data': "no thanks we're British" , 'isit': 'no'}
     return json.dumps(resp)
 
 @app.route("/get_movie_list",methods=["POST"])
@@ -39,10 +49,12 @@ def getMovieList():
     return json.dumps(resp)
 
 #-------------------
-def nudge_model():
-    import random
-    nudge = [random.randint(0,200) for i in range(4)]
-    return nudge
+def collaborative_model(user_choices):
+    cosine_similarity = np.array([[1, 0.9, 0.5, -0.4],
+                                 [0.9, 1, -0.1, 0.6],
+                                 [0.5, -0.1, 1, -0.7],
+                                 [-0.4, 0.6, -0.7, 1]])
+    return list(cosine_similarity.dot(user_choices))
 #-------------------
 
 if __name__ == "__main__":
