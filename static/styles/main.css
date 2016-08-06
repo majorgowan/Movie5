@@ -1,0 +1,114 @@
+/* main.css */
+
+html, body, h1, h2, h3, h4, p, div, ul, ol, li {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 100%;
+}
+h1 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+    text-align: center;
+    color: #333388;
+}
+h2 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 100;
+    text-align: center;
+    color: #ffffff;
+    width: 700px;
+    margin: 0 auto 0 auto;
+}
+h2 strong {
+    font-weight: 400;
+}
+.header {
+    background-color: #ddaaaa;
+    padding: 5px 0 10px 0;
+}
+h3 {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 28px;
+    font-weight: normal;
+    text-align: center;
+    border-bottom: 1px solid #555555;
+    margin: 20px 0 20px 0;
+}
+p {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 18px;
+}
+a {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+}
+a:hover {
+    color: #aa0000;
+    text-decoration: underline;
+}
+.tagline {
+    background-color: #444444;
+    background-image: url('../images/filmstrip.jpg');
+    padding: 20px 0 20px 0;
+}
+.tagline h2 {
+    color: #cc2222;
+}
+
+.recommender-block {
+    width: 100%;
+    padding: 20px 0;
+    margin: 0;
+    background-color: #ddaaaa;
+    /*margin-bottom: 20px;*/
+}
+.recommender-block #containment-wrapper {
+    /* background-image: url('../images/endzones.png'); */ 
+    background-color: #dddddd;
+    background: linear-gradient(to top right, #bb3333, #33bb33);
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 800px;
+    height: 450px;
+}
+.recommender-block #containment-wrapper img {
+    position: absolute;
+}
+.recommender-block #containment-wrapper .droppable_bar {
+    height: 100%;
+    width: 12%;
+}
+.recommender-block #containment-wrapper #dislike_bar {
+    background-color: #993333;
+    float: left;
+}
+.recommender-block #containment-wrapper #like_bar {
+    background-color: #339933;
+    float: right;
+}
+.arrow_and_label {
+    width: 800px;
+    margin: auto;
+}
+.arrow_and_label .horiz_arrow {
+    margin: auto;
+}
+
+.dropped {
+    border: 1px solid  #111111;
+}
+
+.footer {
+    background-color: #999999;
+    text-align: center;
+    padding: 20px 0 10px 0;
+}
+

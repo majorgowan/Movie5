@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/vendor/jquery-ui.theme.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/vendor/jquery-ui.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <h1>5th Floor Movie Recommender</h1>
+        </div>
+        <div class="tagline">
+            <h2>dedicated to <strong>movies</strong> and the people who <strong>love (and hate)</strong> them!</h2>
+        </div>
+        <div class="recommender-block">
+            <div id="containment-wrapper">
+                <div class="droppable_bar" id="dislike_bar">
+                </div>
+                <div class="droppable_bar" id="like_bar">
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p><a href="mailto:majorgowan@yahoo.com">Click here to email me</a></p>
+        </div>
+    </body>
+    <!-- scripts-->
+    <!-- vendor -->
+    <script src="{{ url_for('static', filename='javascript/vendor/jquery-3.1.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/vendor/jquery-ui.min.js') }}"></script>
+    <!-- App -->
+    <script src="{{ url_for('static', filename='javascript/app.js') }}"></script>
+    <!-- -- -- -->
+</html>
