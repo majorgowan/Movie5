@@ -3,6 +3,28 @@ $(document).ready( function() {
     // make AJAX call to get json of movie info
     populate();
 
+    // display instructions on mouse-over of screen
+    $( "#containment-wrapper" )
+        .tooltip({ 'track': false,
+                   'position': {'my': 'left top',
+                                'at': 'right bottom'},
+                   'tooltipClass': 'instructions'
+        });
+
+    // display 'title' property on mouse-over of both axes
+    $( "#arrow-div-vert p" )
+        .tooltip({ 'track': false, 
+                   'position': {'my': 'right-150 top+50', 
+                                'at': 'left+300 bottom'}, 
+                   'tooltipClass': 'instructions'
+        });
+
+    $( "#arrow-div p" )
+        .tooltip({ 'track': false, 
+                   'position': {'my': 'right top', 
+                                'at': 'left+300 center'}, 
+                   'tooltipClass': 'instructions'
+        });
 
     $( ".droppable_bar" ).droppable({
         accept: "#containment-wrapper > img",
@@ -42,17 +64,19 @@ $(document).ready( function() {
     });
 
     function placePoster(obj, relx, rely) {
-        buff = $(".droppable_bar").width();
+        var container_width = $("#containment-wrapper").width();
+        var container_height = $("#containment-wrapper").height();
+        var img_height = $(obj).height();
+        var img_width = $(obj).width();
+        var buff = $(".droppable_bar").width();
+        // console.log('img dims: ' + img_width + 'x' + img_height);
+
         $(obj).animate({
-            top:  relx*($("#containment-wrapper").height() - $("img").height()), 
-            left: buff + rely*($("#containment-wrapper").width() - 2*buff - $("img").width())
+            top:  rely*(container_height - img_height), 
+            left: buff + relx*(container_width - 2*buff - img_width)
         }, 400, function() {
             // Animation complete.
         });
-        //$(obj).css({ 
-        //    top:  relx*($("#containment-wrapper").height() - $("img").height()), 
-        //    left: buff + rely*($("#containment-wrapper").width() - 2*buff - $("img").width())
-        //});
     }
 
     function initPosters() {
@@ -70,7 +94,10 @@ $(document).ready( function() {
 
 
         // raise to top on click
-        $( ".draggable" ).mousedown( function() {
+        $( ".draggable" ).mousedown( function(ev) {
+
+            // for touchscreen prevent select on 'click'
+            ev.preventDefault();
 
             var el = $(this);
 

@@ -13,22 +13,42 @@
         <div class="tagline">
             <h2>dedicated to <strong>movies</strong> and the people who <strong>love (and hate)</strong> them!</h2>
         </div>
+               
         <div class="recommender-block">
-            <div id="containment-wrapper">
+            <div id="containment-wrapper"
+                 title="Drag the movies you like (hate) to the right (left) and the computer will
+                        determine your opinion of the others. (You won't have to see them!)">
+                <div id="arrow-div-vert">
+                    <p title="Preferences predicted using the similarities between
+                              movies determined by comparing the ratings of the thousands 
+                              of people in the MovieLens data set.">
+                              Collaborative Filter</p>
+                    <img src="{{ url_for('static', filename='images/up_arrow_900.png') }}"/>;
+                </div>
                 <div class="droppable_bar" id="dislike_bar">
                 </div>
                 <div class="droppable_bar" id="like_bar">
                 </div>
+                <div id="arrow-div">
+                    <p title="Preferences predicted using the similarities between 
+                              movies determined by comparing the text in their official 
+                              descriptions using the doc-to-vec algorithm.">
+                              Doc-to-Vec</p>
+                </div>
             </div>
         </div>
-        <div class="footer">
+
+        <!--
+            <div class="footer">
             <p><a href="mailto:majorgowan@yahoo.com">Click here to email me</a></p>
-        </div>
+            </div>
+        -->
     </body>
     <!-- scripts-->
     <!-- vendor -->
     <script src="{{ url_for('static', filename='javascript/vendor/jquery-3.1.0.min.js') }}"></script>
     <script src="{{ url_for('static', filename='javascript/vendor/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/vendor/jquery.ui.touch-punch.min.js') }}"></script>
     <!-- App -->
     <script src="{{ url_for('static', filename='javascript/app.js') }}"></script>
     <!-- -- -- -->
