@@ -1,39 +1,52 @@
 <!doctype html>
 <html>
     <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon/nickel_1947.jpg') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/vendor/jquery-ui.theme.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/vendor/jquery-ui.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     </head>
     <title>Movie5</title>
     <body>
-        <div class="header">
+        <!--
+            <div class="header">
             <h1>5th Floor Movie Recommender</h1>
-        </div>
+            </div>
+        -->
         <div class="tagline">
-            <h2>dedicated to <strong>movies</strong> and the people who <strong>love (and hate)</strong> them!</h2>
+            <h2>To <strong>movies</strong> and the people who <strong>love (and hate)</strong> them!</h2>
         </div>
-               
+        <div class="instructions">
+            <h4>Drag movies you <strong>like to the right</strong> and movies you <strong>hate to the left</strong>.
+                We'll determine your opinion of the others. (You won't even have to see them!)</h4>
+        </div>
+
         <div class="recommender-block">
-            <div id="containment-wrapper"
-                 title="Drag the movies you like (hate) to the right (left) and the computer will
-                        determine your opinion of the others. (You won't have to see them!)">
+            <div id="containment-wrapper">
                 <div id="arrow-div-vert">
-                    <p title="Preferences predicted using the similarities between
-                              movies determined by comparing the ratings of the thousands 
-                              of people in the MovieLens data set.">
-                              Collaborative Filter</p>
-                    <img src="{{ url_for('static', filename='images/up_arrow_900.png') }}"/>;
+                    <p>
+                    <span id='collaborative-span' 
+                    title="Preferences predicted using the similarities between
+                    movies determined by comparing the ratings of the thousands 
+                    of people in the MovieLens data set.">Collaborative filtering</span>
+                    </p>
+                    <img src="{{ url_for('static', filename='images/up_arrow_900.png') }}"/>
                 </div>
                 <div class="droppable_bar" id="dislike_bar">
                 </div>
+                <div class="curtain" id="dislike_curtain">
+                </div>
                 <div class="droppable_bar" id="like_bar">
                 </div>
+                <div class="curtain" id="like_curtain">
+                </div>
                 <div id="arrow-div">
-                    <p title="Preferences predicted using the similarities between 
-                              movies determined by comparing the text in their official 
-                              descriptions using the doc-to-vec algorithm.">
-                              Doc-to-Vec</p>
+                    <p>
+                    <span id='content-span' 
+                    title="Preferences predicted using the similarities between 
+                    movies determined by comparing the text in their official 
+                    descriptions using the doc-to-vec algorithm.">Content-based filtering</span>
+                    </p>
                 </div>
             </div>
         </div>

@@ -1,13 +1,17 @@
 from flask import Flask, request, session, render_template, url_for, json
 import numpy as np
+import Recommend.recommend as rec
 
 app = Flask(__name__)
 app.secret_key = 'burnsmonkeystypedit'
 
+collaborative_mat = rec.getCosineSimilarityMatrix('cosine_coll2.npy')
+content_mat = rec.getCosineSimilarityMatrix('cosine_content.npy')
+
 #---ROUTES----
 @app.route("/")
 def movie_rater():
-    session['user_choices'] = [0,0,0,0]
+    session['user_choices'] = list(np.zeros(len(content_mat)))
     return render_template('plain.html')
 
 @app.route("/update_choice")
@@ -20,15 +24,19 @@ def update():
     ifilm = int(poster.split('_')[1])
     endzone = request.args.get('endzone')
     if (endzone == 'dislike_bar'):
-        thumb = -1
+        thumb = -1.0
     else:
-        thumb = 1
+        thumb = 1.0
 
     # set user_choices
     choices[ifilm] = thumb
     session['user_choices'] = choices
 
-    ratings = collaborative_model(choices)
+    ratings_x = apply_model(choices, 'content')
+    ratings_y = apply_model(choices, 'collaborative')
+    ratings = zip(ratings_x,ratings_y)
+
+    # print(list(ratings))
 
     # build response object
     resp = {}
@@ -36,42 +44,22 @@ def update():
         if (choices[ii] == 0):
             resp['poster_' + str(ii)] = rating  
 
-    #pred = collaborative_model(user_choices);
-    #resp = { 'ifilm': ifilm, 'thumb': thumb }
-
     return json.dumps(resp)
 
 @app.route("/get_movie_list",methods=["GET"])
 def getMovieList():
     # create dictionary of movie info and send as JSON
-    resp = \
-       [  
-       { 
-           'title': 'The Bourne Identity (2002)',
-           'filename': 'BourneIdentity_2002_t.jpg'
-       },
-       {
-           'title': 'The Bourne Supremacy (2004)',
-           'filename': 'BourneSupremacy_2004_t.jpg'
-       },
-       {
-           'title': 'The Bourne Ultimatum (2007)',
-           'filename': 'BourneUltimatum_2007_t.jpg'
-       },
-       {
-           'title': 'Jason Bourne (2016)',
-           'filename': 'JasonBourne_2016_t.jpg'
-       },
-       ]
+    resp = rec.getMovieList()
     return json.dumps(resp)
 
 #-------------------
-def collaborative_model(user_choices):
+def apply_model(user_choices, coll_content):
     fac = 1.0 / np.sum(np.abs(user_choices))
-    cosine_similarity = np.array([[1, 0.9, 0.5, -0.4],
-                                 [0.9, 1, -0.1, 0.6],
-                                 [0.5, -0.1, 1, -0.7],
-                                 [-0.4, 0.6, -0.7, 1]])
+    if coll_content == 'collaborative':
+        cosine_similarity = collaborative_mat
+    else:
+        cosine_similarity = content_mat
+
     return list(fac*cosine_similarity.dot(user_choices))
 #-------------------
 

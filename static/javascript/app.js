@@ -3,27 +3,19 @@ $(document).ready( function() {
     // make AJAX call to get json of movie info
     populate();
 
-    // display instructions on mouse-over of screen
-    $( "#containment-wrapper" )
-        .tooltip({ 'track': false,
-                   'position': {'my': 'left top',
-                                'at': 'right bottom'},
-                   'tooltipClass': 'instructions'
-        });
-
     // display 'title' property on mouse-over of both axes
-    $( "#arrow-div-vert p" )
+    $( "#collaborative-span" )
         .tooltip({ 'track': false, 
-                   'position': {'my': 'right-150 top+50', 
-                                'at': 'left+300 bottom'}, 
-                   'tooltipClass': 'instructions'
+            'position': {'my': 'center top+50', 
+                'at': 'center bottom'}, 
+                'tooltipClass': 'instructions'
         });
 
-    $( "#arrow-div p" )
+    $( "#content-span" )
         .tooltip({ 'track': false, 
-                   'position': {'my': 'right top', 
-                                'at': 'left+300 center'}, 
-                   'tooltipClass': 'instructions'
+            'position': {'my': 'right top', 
+                'at': 'left-20 center-50'}, 
+                'tooltipClass': 'instructions'
         });
 
     $( ".droppable_bar" ).droppable({
@@ -35,11 +27,14 @@ $(document).ready( function() {
 
             // detach the image from its current parent and append it to endzone
             ui.draggable.detach();
+            ui.draggable.tooltip('disable');     // disable tooltip and reenable in new position
+            ui.draggable.tooltip();
             // append to droppable endzone and position 
             ui.draggable
                 .css({
                     'position': 'static',
-                    'margin': '5px auto -40px auto'
+                    'transform': 'scale(0.75,0.75)',
+                    'margin': '5px auto -50px auto'
                 }).appendTo($(this));
             // make AJAX call to update preferences and get new predictions
             $.ajax({
@@ -50,8 +45,9 @@ $(document).ready( function() {
                 success: function(response) {
                     console.log(response);
                     for (var post in response) {
-                        posx = 0.5*(response[post] + 1);
-                        posy = 1-posx;                            
+                        cosole.log(response[post]);
+                        posx = response[post][0];
+                        posy = response[post][1];                            
                         placePoster("#"+post, posx, posy);
                     }
                     //rearrange_other_posters(ui.draggable, response.nudge);
@@ -66,8 +62,8 @@ $(document).ready( function() {
     function placePoster(obj, relx, rely) {
         var container_width = $("#containment-wrapper").width();
         var container_height = $("#containment-wrapper").height();
-        var img_height = $(obj).height();
-        var img_width = $(obj).width();
+        var img_height = Math.max(100,$(obj).height());
+        var img_width = Math.max(68,$(obj).width());
         var buff = $(".droppable_bar").width();
         // console.log('img dims: ' + img_width + 'x' + img_height);
 
@@ -89,8 +85,11 @@ $(document).ready( function() {
                 scroll: false 
             });
 
-        // display 'title' property on mouse-over
-        $( ".draggable" ).tooltip({ track: true });
+        // display' title' property on mouse-over
+        $( ".draggable" ).tooltip({
+            track: true,
+            hide: { effect: "scale", duration: 300 }
+        });
 
 
         // raise to top on click
@@ -131,7 +130,7 @@ $(document).ready( function() {
                 console.log(response);
                 for (var ifilm = 0; ifilm < response.length; ifilm++) {
                     // add films to the #containment-wrapper element in DOM
-                    $('<img src="/static/images/' + response[ifilm].filename + '"' + 
+                    $('<img src="/static/images/posters/' + response[ifilm].filename + '"' + 
                             'title="' + response[ifilm].title + '"/>')
                         .addClass("ui-widget-content draggable")
                         .attr('id', 'poster_' + ifilm)

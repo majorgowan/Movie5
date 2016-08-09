@@ -16,15 +16,15 @@ h1 {
 }
 h2 {
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 20px;
-    font-weight: 100;
+    font-size: 24px;
+    font-weight: 300;
     text-align: center;
     color: #ffffff;
     width: 700px;
     margin: 0 auto 0 auto;
 }
 h2 strong {
-    font-weight: 400;
+    font-weight: 700;
 }
 html {
     background-color: #ffbbee;
@@ -68,16 +68,19 @@ a:hover {
     color: #cc2222;
 }
 .instructions {
+    text-align: center;
     background-color: #333388;
-    color: #bbbbbb;
+    color: #ddbbbb;
+    padding: 3px 0;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 18px;
 }
-    
+.instructions h4 {
+    font-size: 18px;
+}    
 
 .recommender-block {
     width: 100%;
-    padding: 20px 0;
+    padding: 40px 0;
     margin: 0;
     /*background-color: #ddaaaa;*/
     /*margin-bottom: 20px;*/
@@ -98,15 +101,29 @@ a:hover {
 }
 .recommender-block #containment-wrapper .droppable_bar {
     height: 450px;
-    width: 150px;
+    width: 100px;
     text-align: center;
 }
 .recommender-block #containment-wrapper #dislike_bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.recommender-block #containment-wrapper #like_bar {
+    position: absolute;
+    left: 800px;
+    top: 0;
+}
+.recommender-block #containment-wrapper .curtain {
+    height: 450px;
+    width: 150px;
+}
+.recommender-block #containment-wrapper #dislike_curtain {
     /* background-color: #993333; */
     background-image: url('../images/curtain_red.png');
     float: left;
 }
-.recommender-block #containment-wrapper #like_bar {
+.recommender-block #containment-wrapper #like_curtain {
     /* background-color: #339933; */
     background-image: url('../images/curtain_green.png');
     float: right;
@@ -128,7 +145,7 @@ a:hover {
     height: 100%;
     padding-top: 70px;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size: 28px;
+    font-size: 24px;
 }
 .recommender-block #arrow-div-vert {
     position: absolute;
@@ -149,7 +166,7 @@ a:hover {
 .recommender-block #arrow-div-vert p {
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     white-space: nowrap;
-    font-size: 28px;
+    font-size: 24px;
     position: absolute;
     left: -125px;
     top: 200px;
