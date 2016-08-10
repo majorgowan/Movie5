@@ -59,6 +59,7 @@ a:hover {
     color: #aa0000;
     text-decoration: underline;
 }
+/*
 .tagline {
     background-color: #444444;
     background-image: url('../images/filmstrip.jpg');
@@ -67,6 +68,7 @@ a:hover {
 .tagline h2 {
     color: #cc2222;
 }
+*/
 .instructions {
     text-align: center;
     background-color: #333388;
@@ -77,10 +79,17 @@ a:hover {
 .instructions h4 {
     font-size: 18px;
 }    
+.filter_method_div {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    text-align: center;
+    padding: 3px 0;
+    font-size: 18px;
+    color: #333388; 
+}
 
 .recommender-block {
     width: 100%;
-    padding: 40px 0;
+    padding: 10px 0;
     margin: 0;
     /*background-color: #ddaaaa;*/
     /*margin-bottom: 20px;*/
@@ -88,7 +97,8 @@ a:hover {
 .recommender-block #containment-wrapper {
     /* background-image: url('../images/endzones.png'); */ 
     background-color: #dddddd;
-    background: linear-gradient(to top right, #bb3333, #33bb33);
+    /* background: linear-gradient(to top right, #bb3333, #33bb33); */
+    background: linear-gradient(to right, #bb3333, #33bb33);
     border: 8px ridge #bbaaee;
     position: relative;
     margin: auto;
@@ -131,6 +141,7 @@ a:hover {
 .draggable {
     z-index: 0;
 }
+/*
 .recommender-block #arrow-div {
     background-image: url('../images/right_arrow_900.png');
     position: absolute;
@@ -173,10 +184,12 @@ a:hover {
     margin: auto;
     transform: rotate(-90deg);
 }
+*/
 
+/*
 .footer {
-    /* background-color: #999999; */
+    // background-color: #999999;
     text-align: center;
     padding: 20px 0 10px 0;
 }
-
+*/

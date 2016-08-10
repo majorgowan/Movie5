@@ -13,17 +13,25 @@
             <h1>5th Floor Movie Recommender</h1>
             </div>
         -->
+        <!--
         <div class="tagline">
             <h2>To <strong>movies</strong> and the people who <strong>love (and hate)</strong> them!</h2>
         </div>
+        -->
         <div class="instructions">
             <h4>Drag movies you <strong>like to the right</strong> and movies you <strong>hate to the left</strong>.
                 We'll determine your opinion of the others. (You won't even have to see them!)</h4>
         </div>
 
+        <div class="filter_method_div">
+            <input type="radio" name="filter_method" value="content" checked="checked">Content-based</input>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="filter_method" value="collaborative">Collaborative</input>
+        </div>
         <div class="recommender-block">
             <div id="containment-wrapper">
-                <div id="arrow-div-vert">
+                <!--
+                    <div id="arrow-div-vert">
                     <p>
                     <span id='collaborative-span' 
                     title="Preferences predicted using the similarities between
@@ -31,7 +39,8 @@
                     of people in the MovieLens data set.">Collaborative filtering</span>
                     </p>
                     <img src="{{ url_for('static', filename='images/up_arrow_900.png') }}"/>
-                </div>
+                    </div>
+                -->
                 <div class="droppable_bar" id="dislike_bar">
                 </div>
                 <div class="curtain" id="dislike_curtain">
@@ -40,14 +49,16 @@
                 </div>
                 <div class="curtain" id="like_curtain">
                 </div>
-                <div id="arrow-div">
+                <!--
+                    <div id="arrow-div">
                     <p>
                     <span id='content-span' 
                     title="Preferences predicted using the similarities between 
                     movies determined by comparing the text in their official 
                     descriptions using the doc-to-vec algorithm.">Content-based filtering</span>
                     </p>
-                </div>
+                    </div>
+                -->
             </div>
         </div>
 

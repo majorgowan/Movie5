@@ -1,9 +1,14 @@
 $(document).ready( function() {
 
+    // keep track of tab-selected posters (for moving to top)
+    var selectedPoster = 0;
+
     // make AJAX call to get json of movie info
     populate();
 
     // display 'title' property on mouse-over of both axes
+    // (if using "2-D" predictions
+    /*
     $( "#collaborative-span" )
         .tooltip({ 'track': false, 
             'position': {'my': 'center top+50', 
@@ -17,6 +22,52 @@ $(document).ready( function() {
                 'at': 'left-20 center-50'}, 
                 'tooltipClass': 'instructions'
         });
+    */
+
+    // attach listener for tab key to #containment-wrapper
+    // to cycle through child images and raise them to the top
+    $(document).keydown( function(ev) {
+        var code = ev.keyCode || ev.which;
+        // number of images
+        var posters = ($("#containment-wrapper").find("img"));
+        selectedPoster = (selectedPoster+1) % posters.length;
+
+        if (code === 9) {  
+            ev.preventDefault();
+            raisePoster($(posters[selectedPoster]));
+        }
+    });
+
+    // attach listener to radio button and re-filter on change
+    $('input[type=radio][name=filter_method]').change(function () {
+        // if there are already classified posters ...
+        var len = ($(".droppable_bar").find("img")).length;
+
+        if (len > 0) {        
+            $.ajax({
+                type: 'GET',
+                url: '/update_choice',
+                dataType: "json",
+                data: {
+                    'poster': 'radio', 
+                    'endzone': 'radio',
+                    'filter_method': $('input[name=filter_method]:checked').val()
+                },
+                success: function(response) {
+                    for (var post in response) {
+                        // shift position to between 0 and 1 (model prediction between -1 and 1)
+                        posx = 0.5*(1.0 + response[post][0]);
+                        posy = 0.5*(1.0 + response[post][1]);                            
+                        // place poster
+                        placePoster("#"+post, posx, posy);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
 
     // make endzones "droppable" and define action to take 
     // when poster dropped inside
@@ -37,7 +88,11 @@ $(document).ready( function() {
                 type: 'GET',
                 url: '/update_choice',
                 dataType: "json",
-                data: {'poster': ui.draggable.attr('id'), 'endzone': $(this).attr('id') },
+                data: {
+                    'poster': ui.draggable.attr('id'), 
+                    'endzone': $(this).attr('id'),
+                    'filter_method': $('input[name=filter_method]:checked').val()
+                },
                 success: function(response) {
                     for (var post in response) {
                         // shift position to between 0 and 1 (model prediction between -1 and 1)
@@ -56,11 +111,22 @@ $(document).ready( function() {
 
     function toEndzone(poster, endzone) {
         // add poster image to endzone
+        var len = ($(endzone).find("img")).length;
+        var top_margin = '5px'
+        var bottom_margin = -40 - 20*(len%2) + 'px';
+        var left_margin = '-10px';
+        var right_margin = '-30px';
+        if ($(endzone).is($("#like_bar"))) {
+            left_margin = '-30px';
+            right_margin = '-10px';
+        }
+        var margin_string = top_margin + ' ' + right_margin + ' ' + bottom_margin + ' ' + left_margin;
+
         $(poster)
             .css({
                 'position': 'static',
                 'transform': 'scale(0.75,0.75)',
-                'margin': '5px auto -50px auto',
+                'margin': margin_string,
             }).appendTo($(endzone));
     }
 
@@ -74,7 +140,19 @@ $(document).ready( function() {
         $(obj).animate({
             top:  rely*(container_height - img_height), 
             left: buff + relx*(container_width - 2*buff - img_width)
-        }, 400, function() {});
+        }, 800, function() {});
+    }
+
+    // raise to top on click
+    function raisePoster(poster) {
+        // find maximum z-index of object's siblings
+        var maxZI = 0;
+        $(poster).siblings("img").each( function () {
+            var z = parseInt($(this).css("z-index"), 10);
+            maxZI = Math.max(maxZI, z);
+        });
+        // set clicked element to a higher level
+        $(poster).css({ 'z-index': maxZI+1 });
     }
 
     // initialize posters
@@ -97,15 +175,7 @@ $(document).ready( function() {
         $( ".draggable" ).mousedown( function(ev) {
             // for touchscreen prevent select on 'click'
             ev.preventDefault();
-            var el = $(this);
-            // find maximum z-index of object's siblings
-            var maxZI = 0;
-            el.siblings("img").each( function () {
-                var z = parseInt($(this).css("z-index"), 10);
-                maxZI = Math.max(maxZI, z);
-            });
-            // set clicked element to a higher level
-            el.css({ 'z-index': maxZI+1 });
+            raisePoster($(this));
         });
 
         // randomly position 
@@ -122,7 +192,6 @@ $(document).ready( function() {
             data: '',
             type: 'GET',
             success: function(response) {
-                // console.log(response);
                 for (var ifilm = 0; ifilm < response.length; ifilm++) {
                     // add films to the #containment-wrapper element in DOM
                     $('<img src="/static/images/posters/' + response[ifilm].filename + '"' + 

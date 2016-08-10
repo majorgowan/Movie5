@@ -8,13 +8,13 @@ app.secret_key = 'burnsmonkeystypedit'
 collaborative_mat = rec.getCosineSimilarityMatrix('cosine_coll2.npy', method='rank_sigmoid')
 content_mat = rec.getCosineSimilarityMatrix('cosine_content.npy', method='rank_sigmoid')
 
-
 #---ROUTES----
 @app.route("/")
 def movie_rater():
     session['user_choices'] = list(np.zeros(len(content_mat)))
+    # initialize random y-coordinate:
+    session['ratings_y'] = list(2.0*np.random.sample(len(content_mat)) - 1.0)
     return render_template('plain.html')
-
 
 @app.route("/update_choice")
 def update():
@@ -23,20 +23,27 @@ def update():
 
     # process request data to set user_choices
     poster = request.args.get('poster')
-    ifilm = int(poster.split('_')[1])
-    endzone = request.args.get('endzone')
-    if (endzone == 'dislike_bar'):
-        thumb = -1.0
+    print(poster)
+
+    # if request isn't just a radio change
+    if poster != 'radio':
+        ifilm = int(poster.split('_')[1])
+        endzone = request.args.get('endzone')
+        if (endzone == 'dislike_bar'):
+            thumb = -1.0
+        else:
+            thumb = 1.0
+        choices[ifilm] = thumb
+        # set user_choices (in case of change)
+        session['user_choices'] = choices
+
+    filter_method = request.args.get('filter_method')
+    if (filter_method == 'content'):
+        ratings_x = rec.apply_model(choices, content_mat)
     else:
-        thumb = 1.0
+        ratings_x = rec.apply_model(choices, collaborative_mat)
 
-    # set user_choices
-    choices[ifilm] = thumb
-    session['user_choices'] = choices
-
-    ratings_x = rec.apply_model(choices, content_mat)
-    ratings_y = rec.apply_model(choices, collaborative_mat)
-    ratings = zip(ratings_x,ratings_y)
+    ratings = zip(ratings_x,session['ratings_y'])
 
     # build response object
     resp = {}
