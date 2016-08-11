@@ -27,10 +27,10 @@ h2 strong {
     font-weight: 700;
 }
 html {
-    background-color: #ffbbee;
+    /* background-color: #ffbbee; */
 }
 body {
-    background: linear-gradient(to bottom, #bbaaee, #ffbbee);
+    /* background: linear-gradient(to bottom, #bbaaee, #ffbbee); */
 }
 .header {
     /*background-color: #ddaaaa;*/
@@ -73,7 +73,7 @@ a:hover {
     text-align: center;
     background-color: #333388;
     color: #ddbbbb;
-    padding: 3px 0;
+    padding: 5px 0;
     font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 .instructions h4 {
@@ -82,8 +82,8 @@ a:hover {
 .filter_method_div {
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     text-align: center;
-    padding: 3px 0;
-    font-size: 18px;
+    padding: 10px 0;
+    font-size: 24px;
     color: #333388; 
 }
 
@@ -98,46 +98,50 @@ a:hover {
     /* background-image: url('../images/endzones.png'); */ 
     background-color: #dddddd;
     /* background: linear-gradient(to top right, #bb3333, #33bb33); */
-    background: linear-gradient(to right, #bb3333, #33bb33);
+    background: linear-gradient(to right, #dd1111, #11dd11);
     border: 8px ridge #bbaaee;
     position: relative;
     margin: auto;
     padding: 0;
     width: 900px;
-    height: 450px;
+    height: 500px;
 }
 .recommender-block #containment-wrapper img {
     position: absolute;
 }
 .recommender-block #containment-wrapper .droppable_bar {
-    height: 450px;
-    width: 100px;
+    height: 500px;
+    width: 120px;
     text-align: center;
 }
 .recommender-block #containment-wrapper #dislike_bar {
+    background-color: #dd0000;
     position: absolute;
     top: 0;
     left: 0;
 }
 .recommender-block #containment-wrapper #like_bar {
+    background-color: #00dd00;
     position: absolute;
-    left: 800px;
+    left: 780px;
     top: 0;
 }
+/*
 .recommender-block #containment-wrapper .curtain {
-    height: 450px;
+    height: 500px;
     width: 150px;
 }
 .recommender-block #containment-wrapper #dislike_curtain {
-    /* background-color: #993333; */
     background-image: url('../images/curtain_red.png');
+    background-repeat: no-repeat;
     float: left;
 }
 .recommender-block #containment-wrapper #like_curtain {
-    /* background-color: #339933; */
     background-image: url('../images/curtain_green.png');
+    background-repeat: no-repeat;
     float: right;
 }
+*/
 .draggable {
     z-index: 0;
 }
@@ -164,12 +168,12 @@ a:hover {
     left: -120px;
     padding: 0;
     width: 100px;
-    height: 450px;
+    height: 500px;
     text-align: center;
 }
 .recommender-block #arrow-div-vert img {
     position: absolute;
-    height: 450px;
+    height: 500px;
     left: -5px;
     width: 100px;
     top: 0;

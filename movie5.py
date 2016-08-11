@@ -5,8 +5,8 @@ import Recommend.recommend as rec
 app = Flask(__name__)
 app.secret_key = 'burnsmonkeystypedit'
 
-collaborative_mat = rec.getCosineSimilarityMatrix('cosine_coll2.npy', method='rank_sigmoid')
-content_mat = rec.getCosineSimilarityMatrix('cosine_content.npy', method='rank_sigmoid')
+collaborative_mat = rec.getCosineSimilarityMatrix('cosine_coll2.npy', method='centre')
+content_mat = rec.getCosineSimilarityMatrix('cosine_content.npy', method='centre')
 
 #---ROUTES----
 @app.route("/")
@@ -39,9 +39,9 @@ def update():
 
     filter_method = request.args.get('filter_method')
     if (filter_method == 'content'):
-        ratings_x = rec.apply_model(choices, content_mat)
+        ratings_x = rec.apply_model(choices, content_mat, standard=True)
     else:
-        ratings_x = rec.apply_model(choices, collaborative_mat)
+        ratings_x = rec.apply_model(choices, collaborative_mat, standard=True)
 
     ratings = zip(ratings_x,session['ratings_y'])
 

@@ -29,20 +29,30 @@ def getCosineSimilarityMatrix(filename, method=None):
     import os.path
     mat = np.load(os.path.join('CosineData',filename))
     if (method is not None):
-        # replace similarities with equally spaced values
-        # from -1 to +1
         nn = len(mat)
+        # create list of off-diagonal elements
         triangle = []
         for ir, r0 in enumerate(mat[:-1]):
             triangle += list(r0[ir+1:])
         triangle = np.array(triangle)
-        if method == 'rank':
-            vals = np.linspace(-1.0, 1.0, len(triangle))
-        elif method == 'rank_sigmoid':
-            sigmoid = lambda x: 2.0/(1.0+np.exp(-x)) - 1.0
-            vals = np.linspace(-5, 5, len(triangle))
-            vals = np.array([sigmoid(v) for v in vals])
-        newvals = [a[1] for a in sorted(zip(triangle.argsort(),vals))]
+
+        if (method in ('rank', 'rank_sigmoid')):
+            # replace similarities with equally spaced values
+            # from -1 to +1
+            if method == 'rank':
+                vals = np.linspace(-1.0, 1.0, len(triangle))
+            elif method == 'rank_sigmoid':
+                sigmoid = lambda x: 2.0/(1.0+np.exp(-x)) - 1.0
+                vals = np.linspace(-5, 5, len(triangle))
+                vals = np.array([sigmoid(v) for v in vals])
+            newvals = [a[1] for a in sorted(zip(triangle.argsort(),vals))]
+
+        elif (method == 'centre'):
+            # subtract mean of off-diagonal elements
+            meanval = np.mean(triangle)
+            newvals = triangle - meanval
+
+        # reconstruct matrix from triangle array
         count = 0
         for ii in range(nn-1):
             for jj in range(ii+1,nn):
@@ -59,12 +69,19 @@ def title_to_filename(title):
            re.sub(r'[\.\,\s]', '_', \
            title)) + '.jpg'
 
-def apply_model(user_choices, mat):
+def apply_model(user_choices, mat, standard=False):
     '''Apply cosine-similarity matrix to user choices vector
     '''
     import numpy as np
     fac = 1.0 / np.sum(np.abs(user_choices))
-    return list(fac*mat.dot(user_choices))
+    raw = mat.dot(user_choices)
+    # standardize
+    if standard:
+        std = np.std(raw)
+        ratings = [max(-0.95, min(0.95, x/std)) for x in raw] 
+    else:
+        ratings = [x/fac for x in raw]
+    return ratings
 
 #------------------- image prep (not for active server use -----------
 def processImages(df, targetPath='static/images/posters'):

@@ -114,11 +114,11 @@ $(document).ready( function() {
         var len = ($(endzone).find("img")).length;
         var top_margin = '5px'
         var bottom_margin = -40 - 20*(len%2) + 'px';
-        var left_margin = '-10px';
-        var right_margin = '-30px';
+        var left_margin = '-15px';
+        var right_margin = '-10px';
         if ($(endzone).is($("#like_bar"))) {
-            left_margin = '-30px';
-            right_margin = '-10px';
+            left_margin = '-10px';
+            right_margin = '-15px';
         }
         var margin_string = top_margin + ' ' + right_margin + ' ' + bottom_margin + ' ' + left_margin;
 
