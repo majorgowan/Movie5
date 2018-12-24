@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+    web:
+        build: .
+        image: movie5_image
+        ports:
+            - 5050:5050
+        env_file: .env
+        volumes:
+            - .:/opt/movie5
+        command: gunicorn --bind 0.0.0.0:$PORT wsgi:app
